@@ -1,0 +1,6 @@
+# Generated dashboard build artifact (40-60MB) - regenerate locally with
+# automation/refresh_report.py; the template ships inside для_другого_ПК.zip
+/dashboard_report.html
+automation/out/
+*.pyc
+__pycache__/
