@@ -1,6 +1,9 @@
 # Generated dashboard build artifact (40-60MB) - regenerate locally with
-# automation/refresh_report.py; the template ships inside для_другого_ПК.zip
+# automation/refresh_report.py; the template ships inside для_другого_ПК.zip.
+# The tracked copy lives zipped at Report/dashboard_report.zip (~85% smaller,
+# avoids GitHub's 50MB file-size warning); don't commit the raw .html here.
 /dashboard_report.html
+Report/*.html
 automation/out/
 *.pyc
 __pycache__/
