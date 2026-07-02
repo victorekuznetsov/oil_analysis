@@ -99,6 +99,7 @@ Wabtec 5GEB25A8,МКП,Wabtec 5GEB25A8|МКП,5,37.6,23.39,61.6,0.2,0.447,0.6,1.
 const CSV_COL_MAP={
   'УО':'УО','Передел':'Передел','Тип техники':'ТипТехники','Марка':'Марка','Гаражный №':'Гар','Узел':'Узел',
   'Модель узла':'МодельУзла','Дата отбора пробы':'Дата','Заключение':'Заключение',
+  'Марка масла':'МаркаМасла',
   'Наработка узла на дату отбора пробы (моточасы)':'nh',
   'Наработка масла на дату отбора пробы (моточасы)':'oh',
   'Fe':'Fe','Cu':'Cu','Cr':'Cr','Al':'Al','Ni':'Ni','Pb':'Pb','Sn':'Sn','Si':'Si',
@@ -333,6 +334,8 @@ function _buildDB(rows, normMap){
     if(f97)probe.f97=f97;
     const st=(r.Заключение||'').trim();
     if(st&&st!=='nan'&&st!=='None')probe.st=st;
+    const oilBrand=(r.МаркаМасла||'').trim();
+    if(oilBrand&&oilBrand!=='nan'&&oilBrand!=='None')probe.oil=oilBrand;
 
     if(!db[brand])db[brand]={};
     if(!db[brand][garage])db[brand][garage]={uo,peredel,nodes:{}};
