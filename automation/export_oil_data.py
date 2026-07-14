@@ -147,8 +147,14 @@ def main():
     df = merge_sources(args.sources)
     print(f"merged rows: {len(df)}", file=sys.stderr)
 
+    # Some rows store this as a real Excel date (unambiguous), others as
+    # plain DD.MM.YYYY text (manually typed). dayfirst=True is required for
+    # the text case - without it, pandas defaults to month-first and
+    # silently swaps day/month for any day-of-month <= 12 (e.g. "12.07.2026"
+    # -> Dec 7 instead of Jul 12), corrupting sort order and every
+    # date-derived metric (dFe/FeR, Fr3/Fr5m, seq/days) for those samples.
     date_col = "Дата отбора пробы"
-    df[date_col] = pd.to_datetime(df[date_col], errors="coerce").dt.strftime("%Y-%m-%d")
+    df[date_col] = pd.to_datetime(df[date_col], errors="coerce", dayfirst=True).dt.strftime("%Y-%m-%d")
 
     # The dashboard's CSV parser splits the whole file on '\n' first and
     # parses each line independently - it does not understand a quoted CSV
