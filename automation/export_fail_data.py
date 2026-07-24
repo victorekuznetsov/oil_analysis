@@ -3,7 +3,13 @@
 Convert a "Сводный анализ ПК/NTE.xlsx" failure/repair log (sheet "Сводные
 данные") into the CSV format expected by report_engine.js
 (_parseFailCSV / _buildFailData): columns Дата отказа, Гар#, Узел, Система,
-Воздействие, Описание неисправности.
+Воздействие, Описание неисправности, Модель.
+
+Модель (equipment model) is included so the dashboard can filter failure
+events by brand family before attaching them to a machine - Гар# (garage
+number) is only unique within one equipment brand, not across the whole
+fleet, so different machines (e.g. a БелАЗ and an NTE 200) can share the
+same garage number.
 
 Usage:
     python3 export_fail_data.py <failures.xlsx> --out oil_failures.csv
@@ -22,7 +28,7 @@ def main():
     df = pd.read_excel(args.source, sheet_name="Сводные данные", header=0, engine="openpyxl")
     df["Дата отказа"] = pd.to_datetime(df["Дата отказа"], errors="coerce", dayfirst=True).dt.strftime("%Y-%m-%d")
 
-    keep = ["Дата отказа", "Гар#", "Узел", "Система", "Воздействие", "Описание неисправности"]
+    keep = ["Дата отказа", "Гар#", "Узел", "Система", "Воздействие", "Описание неисправности", "Модель"]
     df = df[[c for c in keep if c in df.columns]]
     df.to_csv(args.out, index=False, encoding="utf-8")
     print(f"wrote {args.out}: {len(df)} rows")

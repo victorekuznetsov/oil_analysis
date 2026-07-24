@@ -491,9 +491,10 @@ function _buildFailData(rows){
     const sysV=(r['Система']||'').trim().slice(0,60);
     const act=(r['Воздействие']||'').trim().slice(0,60);
     const desc=(r['Описание неисправности']||r['Описание']||'').trim().slice(0,120);
+    const brand=(r['Модель']||'').trim().slice(0,40);
     const key=gar+'||'+node;
     if(!lookup[key]) lookup[key]=[];
-    lookup[key].push({dt,node,sys:sysV,action:act,desc});
+    lookup[key].push({dt,node,sys:sysV,action:act,desc,brand});
   });
   // Сортировка событий по дате
   Object.values(lookup).forEach(arr=>arr.sort((a,b)=>a.dt.localeCompare(b.dt)));
